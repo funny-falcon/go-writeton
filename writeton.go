@@ -46,6 +46,8 @@
 //         smartrw := writeton.NewResponseWriter(rw)
 //         http.ServeContent(smartrw, req, "", m, r)
 //     }
+//
+// The code remains workable even if proposal accepted.
 package writeton
 
 import (
