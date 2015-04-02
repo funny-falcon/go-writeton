@@ -24,9 +24,15 @@
 // - for WriteToN method, and then WriteToN will be called
 // - for being other io.LimitedReader, then it recursively dives in.
 //
-//     w := some.(io.Writer)
+//     w := some_w.(io.Writer)
 //     wr := writeton.Writer{w}
-//     io.Copy(wr, some.(io.Reader))
+//     io.Copy(wr, some_r.(io.Reader))
+//     io.CopyN(wr, some_r.(io.Reader), n)
+//
+//     w := some_w.(io.Writer)
+//     writeton.Copy(w, some_r.(io.Reader))
+//     writeton.CopyN(w, some_r.(io.Reader), n)
+//
 //
 // NewResponseWriter could be used to wrap http.ResponseWriter with
 // Writer
@@ -68,7 +74,7 @@ type Writer struct {
 var _ io.Writer = &Writer{nil}
 var _ io.ReaderFrom = &Writer{nil}
 
-// Write method prevents usage Writer by value
+// Write method provides io.Writer
 func (w *Writer) Write(b []byte) (n int, err error) {
 	return w.W.Write(b)
 }
@@ -99,6 +105,16 @@ func (w *Writer) ReadFrom(r io.Reader) (n int64, err error) {
 	}
 }
 
+// Copy is a simple wrapper around Writer and io.Copy
+func Copy(w io.Writer, r io.Reader) (n int64, err error) {
+	return io.Copy(&Writer{w}, r)
+}
+
+// CopyN is a simple wrapper around Writer and io.CopyN
+func CopyN(w io.Writer, r io.Reader, sz int64) (n int64, err error) {
+	return io.CopyN(&Writer{w}, r, sz)
+}
+
 type responseWriter struct {
 	http.ResponseWriter
 	w Writer
@@ -109,11 +125,10 @@ type responseWriter struct {
 // It returns new http.ResponseWriter which will use Writer to
 // workaround io.LimitedReader limitations
 func NewResponseWriter(rw http.ResponseWriter) http.ResponseWriter {
-	w := responseWriter{
+	return &responseWriter{
 		ResponseWriter: rw,
 		w:              Writer{rw},
 	}
-	return &w
 }
 
 func (rw *responseWriter) ReadFrom(r io.Reader) (n int64, err error) {

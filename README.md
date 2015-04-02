@@ -38,10 +38,17 @@ and use all WriteToN methods recursively.
 You should just from io.Writer with writeton.Writer:
 
 ````go
-     w := some.(io.Writer)
+     w := some_w.(io.Writer)
      wr := writeton.Writer{w}
-     io.Copy(wr, some.(io.Reader))
-     io.CopyN(wr, some.(io.Reader), n)
+     io.Copy(wr, some_r.(io.Reader))
+     io.CopyN(wr, some_r.(io.Reader), n)
+````
+
+Or just use writeton.Copy and writeton.CopyN:
+````go
+     w := some_w.(io.Writer)
+     writeton.Copy(wr, some_r.(io.Reader))
+     writeton.CopyN(wr, some_r.(io.Reader), n)
 ````
 
 Or wrap http.ResponseWriter if you wish to pass complex io.ReadSeeker to
