@@ -1,3 +1,6 @@
+WriteToN
+-------
+
 writeton package is workaround io.CopyN and io.LimitedReader limitation
 
 Which ever some one uses io.CopyN or wraps io.Reader by LimitedReader,
@@ -54,4 +57,6 @@ http.ServeContent:
      }
 ````
 
+Copyright (c) 2015, Sokolov Yura aka funny_falcon
 
+License: BSD 3 clause (like Golang itself)
