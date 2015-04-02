@@ -2,6 +2,8 @@
 // This code is in public domain.
 // You may either to retain copyright notice or not.
 // But I will be a bit happier if you do.
+//
+// Additional statement about "software provided 'as is'" is in LICENSE file.
 
 // writeton package is workaround io.CopyN and io.LimitedReader limitation
 //
