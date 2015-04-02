@@ -150,3 +150,22 @@ func TestWithSimpleReader(t *testing.T) {
 		t.Error("CopyN limitReader 20 20:", n, err, r)
 	}
 }
+
+type writerToN struct {
+	io.Reader
+}
+
+func (r *writerToN) WriteToN(w io.Writer, sz int64) (n int64, err error) {
+	return io.CopyN(w, r.Reader, sz)
+}
+
+func TestWrapperWriteToN(t *testing.T) {
+	var r reader
+	w := &Writer{ioutil.Discard}
+	r = reader{capa: 10}
+	wtn := writerToN{&r}
+	n, err := io.CopyN(w, &wtn, 1)
+	if n != 1 || err != nil || !r.called {
+		t.Error("CopyN:", n, err, r)
+	}
+}
