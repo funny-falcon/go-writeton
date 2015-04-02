@@ -59,4 +59,5 @@ http.ServeContent:
 
 Copyright (c) 2015, Sokolov Yura aka funny_falcon
 
-License: BSD 3 clause (like Golang itself)
+The code is in public domain.
+I will be a bit happier if you mention me with good word.

@@ -1,3 +1,8 @@
+// Copyright (c) 2015, Sokolov Yura aka funny_falcon
+// This code is in public domain.
+// You may either to retain copyright notice or not.
+// But I will be a bit happier if you do.
+
 // writeton package is workaround io.CopyN and io.LimitedReader limitation
 //
 // Main io.LimitedReader limitation is that it is not extendable,
